@@ -1,13 +1,16 @@
-function [a] = regression( X, Y, N)
+function [a] = regression( X, Y, N, op)
   format long
   m = [];
-  xf = [];
   y_average = sum(Y)/length(Y)
   %a = [a0, a1,.., an]
-
-  %crear la matriz segun el N orden
-  for idx = 0:N
-      m = [m, X.^idx];
+  %op == 1, regresion con transformaciones
+  if op == 1
+    m = [ones(size(X,1), 1), X];
+  else %op != 1, regresion polinomial
+    %crear la matriz segun el N orden
+    for idx = 0:N
+        m = [m, X.^idx];
+    end
   end
 
   %obtener los parametros
