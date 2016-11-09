@@ -1,7 +1,7 @@
-function [a] = regression( X, Y, N, op)
+function [a, R_squared] = regression( X, Y, N, op)
   format long
   m = [];
-  y_average = sum(Y)/length(Y)
+  y_average = sum(Y)/length(Y);
   %a = [a0, a1,.., an]
   %op == 1, regresion con transformaciones
   if op == 1
@@ -17,21 +17,24 @@ function [a] = regression( X, Y, N, op)
   mt = transpose(m);
   mt_m = (mt*m);
   mt_y = mt*Y;
-  a = mt_m\mt_y;
+  a = mt_m\mt_y
 
   %calcular el resultado
   r = m*a;
 
   %calcular error
-  R_tot = transpose(r - y_average)*(r - y_average)
-  R_res = transpose(r - Y)*(r - Y)
+  R_tot = transpose(r - y_average)*(r - y_average);
+  R_res = transpose(r - Y)*(r - Y);
   R_squared = 1 - R_res/R_tot
   %plotear info
-  fig = figure()
-  set(fig, 'color', 'white')
-  plot(X, Y, 'r*')
-  hold on
-  grid on
-  plot(X, r)
-
+  fig = figure();
+  set(fig, 'color', 'white');
+  plot(X, Y, '-o');
+  hold on;
+  grid on;
+  plot(X, r, 'linewidth', 3, 'color', 'g');
+  xlabel('Mes');
+  ylabel('Consumo de Petroleo');
+  legend('Datos', 'Regresion Lineal');
+  print -djpg regresion_lineal.jpg
 end
